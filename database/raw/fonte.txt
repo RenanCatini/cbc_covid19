@@ -1,0 +1,3 @@
+dados = https://data.mendeley.com/datasets/7bmfgkkm3z/3
+
+artigo = https://www.sciencedirect.com/science/article/pii/S1567134822000259
