@@ -1,11 +1,11 @@
-from base_experiment import BaseExperiment
+from src.base_experiment import BaseExperiment
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
 
 class KNNExperiment(BaseExperiment):
     # Contrutor da Classe
-    def __init__(self, X_train, X_test, y_train, y_test, scenario_name, path):
-        super().__init__(X_train, X_test, y_train, y_test, scenario_name, path)
+    def __init__(self, X_train, y_train, scenario_name, path):
+        super().__init__(X_train, y_train, scenario_name, path)
 
     def _objective(self, trial):
         params = {
@@ -16,8 +16,8 @@ class KNNExperiment(BaseExperiment):
     
         clf = KNeighborsClassifier(**params, n_jobs=-1)
     
-        # Validação cruzada com Acurácia para avaliar o desempenho
-        score = cross_val_score(clf, self.X_train, self.y_train.values.ravel(), scoring='accuracy', cv=5, n_jobs=-1).mean()
+        # Validação cruzada com F1-Score para avaliar o desempenho
+        score = cross_val_score(clf, self.X_train, self.y_train, scoring='accuracy', cv=5, n_jobs=-1).mean()
         return score
 
     def _build_model(self, params):

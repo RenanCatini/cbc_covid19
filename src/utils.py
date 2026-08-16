@@ -17,13 +17,13 @@ import pandas as pd
         scenario_name (str): Nome do cenário/modelo para identificar a saída.
 '''
 def evaluate_model(y_test, y_pred, y_prob, scenario_name):
-    print(f"\\n=== Métricas {scenario_name}  ===")
-    print(f"Acurácia: {accuracy_score(y_test, y_pred):.4f}")
-    print(f"Precisão: {precision_score(y_test, y_pred, average='macro'):.4f}")
-    print(f"Recall:   {recall_score(y_test, y_pred, average='macro'):.4f}")
-    print(f"F1-Score: {f1_score(y_test, y_pred, average='macro'):.4f}")
-    print(f"MCC:      {matthews_corrcoef(y_test, y_pred):.4f}")
-    print(f"AUC:      {roc_auc_score(y_test, y_prob):.4f}")
+    print(f"=== Métricas {scenario_name}  ===")
+    print(f"    Acurácia: {accuracy_score(y_test, y_pred):.4f}")
+    print(f"    Precisão: {precision_score(y_test, y_pred, average='macro'):.4f}")
+    print(f"    Recall:   {recall_score(y_test, y_pred, average='macro'):.4f}")
+    print(f"    F1-Score: {f1_score(y_test, y_pred, average='macro'):.4f}")
+    print(f"    MCC:      {matthews_corrcoef(y_test, y_pred):.4f}")
+    print(f"    AUC:      {roc_auc_score(y_test, y_prob):.4f}")
 
     # Plotar Matriz de Confusão
     plt.figure(figsize=(8, 6))
@@ -76,4 +76,3 @@ def save_results(y_pred, y_prob, scenario_name, path):
     pd.DataFrame([linha_proba_teste]).to_csv(
         arquivo_proba, mode='a', header=False, index=False
     )
-    print(f'Predições e probabilidades do modelo {scenario_name} salvas com sucesso!')

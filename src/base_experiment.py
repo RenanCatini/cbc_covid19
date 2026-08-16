@@ -3,16 +3,15 @@ import optuna
 '''
     Classe Pai: Controi principais Métodos que serão usados.
 '''
-class BaseExperiment:
+class BaseExperiment():
     # Contrutor da Classe Pai
-    def __init__(self, X_train, X_test, y_train, y_test, scenario_name, path):
+    def __init__(self, X_train, y_train, scenario_name, path):
         self.X_train       = X_train
-        self.X_test        = X_test
         self.y_train       = y_train
-        self.y_test        = y_test
         self.scenario_name = scenario_name
         self.path          = path
         self.best_model    = None  
+        self.study         = None
 
         
     # --- Métodos Abstratos ---        
@@ -33,14 +32,13 @@ class BaseExperiment:
         print(f'Iniciando otimização do cenário {self.scenario_name}.')
 
         # Criando estudo e buscando melhores Hiperparâmetros
-        study = optuna.create_study(direction='maximize')
-        study.optimize(self._objective, n_trials, show_progress_bar=True)
+        self.study = optuna.create_study(direction='maximize')
+        self.study.optimize(self._objective, n_trials, show_progress_bar=True)
 
-        print(f"Melhor pontuação (CV): {study.best_value:.4f}")
+        print(f"Melhor pontuação (CV): {self.study.best_value:.4f}")
         print("Melhores parâmetros:")
-        print(study.best_params)
+        print(self.study.best_params)
 
         # Treinar e salvar melhor modelo
         self.best_model = self._build_model(self.study.best_params)
-        self.best_model.fit(self.X_train, self.y_train)
-        print('Modelo treinado com sucesso!')
+        self.best_model.fit(self.X_train, self.y_train.values.ravel())
