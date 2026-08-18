@@ -30,7 +30,7 @@ class SVMExperiment(BaseExperiment):
         clf = SVC(**params, probability=True)
     
         # Cross-validation
-        score = cross_val_score(clf, self.X_train, self.y_train.values.ravel(), scoring='accuracy', cv=5, n_jobs=-1).mean()
+        score = cross_val_score(clf, self.X_train, self.y_train.values.ravel(), scoring='accuracy', cv=3, n_jobs=-1).mean()
         return score
 
     def _build_model(self, params):

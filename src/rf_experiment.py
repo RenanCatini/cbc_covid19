@@ -20,9 +20,9 @@ class RandomForestExperiment(BaseExperiment):
     
         clf = RandomForestClassifier(**params, random_state=14)
     
-        score = cross_val_score(clf, self.X_train, self.y_train.values.ravel(), scoring='accuracy', n_jobs=-1, cv=5).mean()
+        score = cross_val_score(clf, self.X_train, self.y_train.values.ravel(), scoring='accuracy', n_jobs=-1, cv=3).mean()
         return score
 
     def _build_model(self, params):
-        return RandomForestClassifier(**params, n_jobs=-1)
+        return RandomForestClassifier(**params, n_jobs=-1, random_state=14)
         

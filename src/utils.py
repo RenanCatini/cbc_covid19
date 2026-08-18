@@ -41,7 +41,8 @@ def evaluate_model(y_test, y_pred, y_prob, scenario_name):
 
 '''
     Salva as previsões e as probabilidades de teste em arquivos CSV dentro da
-    pasta de resultados do projeto.
+    pasta de resultados do projeto. Se já existir um registro para o mesmo
+    scenario_name, ele é substituído pelo mais recente (sem duplicar linhas).
 
     Parâmetros:
         y_pred (array-like): Classes previstas para o conjunto de teste.
@@ -60,12 +61,7 @@ def save_results(y_pred, y_prob, scenario_name, path):
     # Monta a linha com as predições de teste
     linha_pred_teste = [scenario_name, 'teste'] + list(y_pred)
 
-    # Salva adicionando no final do arquivo (mode='a')
-    pd.DataFrame([linha_pred_teste]).to_csv(
-        arquivo_pred, mode='a', header=False, index=False
-    )
-
-    # Monta a linha com as probabilidades de teste 
+    # Monta a linha com as probabilidades de teste
     probs = (
         y_prob[:, 1]
         if hasattr(y_prob, 'ndim') and y_prob.ndim == 2
@@ -73,6 +69,17 @@ def save_results(y_pred, y_prob, scenario_name, path):
     )
     linha_proba_teste = [scenario_name, 'teste'] + list(probs)
 
-    pd.DataFrame([linha_proba_teste]).to_csv(
-        arquivo_proba, mode='a', header=False, index=False
-    )
+    # Para cada arquivo/linha: remove registro antigo do mesmo cenário (se existir)
+    # e salva a versão mais recente no lugar
+    for arquivo, linha in [(arquivo_pred, linha_pred_teste), (arquivo_proba, linha_proba_teste)]:
+        nova_linha_df = pd.DataFrame([linha])
+
+        if os.path.exists(arquivo):
+            df_existente = pd.read_csv(arquivo, header=None)
+            # Remove qualquer linha existente com o mesmo scenario_name (coluna 0)
+            df_existente = df_existente[df_existente[0] != linha[0]]
+            df_final = pd.concat([df_existente, nova_linha_df], ignore_index=True)
+        else:
+            df_final = nova_linha_df
+
+        df_final.to_csv(arquivo, mode='w', header=False, index=False)

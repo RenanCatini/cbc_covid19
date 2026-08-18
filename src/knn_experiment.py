@@ -16,8 +16,8 @@ class KNNExperiment(BaseExperiment):
     
         clf = KNeighborsClassifier(**params, n_jobs=-1)
     
-        # Validação cruzada com F1-Score para avaliar o desempenho
-        score = cross_val_score(clf, self.X_train, self.y_train, scoring='accuracy', cv=5, n_jobs=-1).mean()
+        # Validação cruzada com -- para avaliar o desempenho
+        score = cross_val_score(clf, self.X_train, self.y_train, scoring='accuracy', cv=3, n_jobs=-1).mean()
         return score
 
     def _build_model(self, params):

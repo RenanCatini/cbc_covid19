@@ -17,7 +17,7 @@ class XGBExperiment(BaseExperiment):
             'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
             'gamma': trial.suggest_float('gamma', 0, 5),
             'objective': 'binary:logistic',
-            'eval_metric': 'mlogloss',
+            'eval_metric': 'logloss',
             'n_jobs': -1,
             'random_state': 14
         }
@@ -26,7 +26,7 @@ class XGBExperiment(BaseExperiment):
         clf = xgb.XGBClassifier(**params)
     
         # Cross-validation
-        score = cross_val_score(clf, self.X_train, self.y_train.values.ravel(), scoring='accuracy', cv=5).mean()
+        score = cross_val_score(clf, self.X_train, self.y_train.values.ravel(), scoring='accuracy', cv=3).mean()
         return score
 
     def _build_model(self, params):
