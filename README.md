@@ -1,5 +1,5 @@
 
-# CBCovid19: classificação a partir de hemogramas
+# Classificação a partir de hemogramas
 
 Projeto de aprendizado de máquina para classificar pacientes em relação à COVID-19 usando dados de hemograma completo (CBC). O fluxo inclui exploração dos dados, preparação das variáveis, otimização de hiperparâmetros com Optuna e comparação de quatro classificadores.
 
@@ -60,54 +60,3 @@ cbc_covid19/
 │   └── utils.py                    # Avaliação e persistência dos resultados
 └── README.md
 ```
-
-## Como executar
-
-### 1. Criar o ambiente
-
-É recomendado usar um ambiente virtual com Python 3.10 ou superior:
-
-```bash
-python -m venv .venv
-```
-
-Ativação no Windows PowerShell:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-Instale as dependências utilizadas pelos notebooks e pelo código-fonte:
-
-```bash
-python -m pip install --upgrade pip
-python -m pip install jupyter pandas numpy scikit-learn xgboost optuna matplotlib seaborn
-```
-
-### 2. Executar os notebooks
-
-A partir da raiz do repositório, inicie o Jupyter:
-
-```bash
-jupyter notebook
-```
-
-Execute os notebooks nesta ordem:
-
-1. `notebooks/01_eda.ipynb`
-2. `notebooks/02_data_preparation.ipynb`
-3. `notebooks/03_knn.ipynb`
-4. `notebooks/04_rf.ipynb`
-5. `notebooks/05_svm.ipynb`
-6. `notebooks/06_xgb.ipynb`
-7. `results/statistics.ipynb`
-
-Os notebooks de modelo importam as classes de `src/`, treinam o melhor modelo encontrado e salvam as predições e probabilidades em `results/`. O arquivo `statistics.ipynb` consolida os resultados para comparação.
-
-## Notas
-
-- Execute os notebooks a partir da raiz do projeto para que os caminhos relativos e os imports funcionem corretamente.
-- Os arquivos `X_train_pca.csv` e `X_test_pca.csv` representam o cenário com redução de dimensionalidade por PCA.
-- A busca de hiperparâmetros pode demorar, especialmente no XGBoost; a quantidade de tentativas é definida no notebook correspondente.
-
-
